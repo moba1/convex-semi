@@ -33,13 +33,12 @@ src/
 ## 資料の用意方法
 ```bash
 $ cd クローン先
-$ ./create.bash 回数 # 回数には自分の担当した輪読第n回の`n`を指定。たとえば`1`とか
+$ bin/create.bash 回数 # 回数には自分の担当した輪読第n回の`n`を指定。たとえば`1`とか
 ```
 これで、`template`ディレクトリから`src/n`へ必要なファイルが移動される。
-もし、`latexmkr`を利用するのであれば、次のコマンドを実行:
+もし、`latexmkr`を利用するのであれば、`create.bash`に`-l`オプションを渡せばいい:
 ```bash
-$ cd src/n # create.bashで作られた`src/n`へ移動
-$ mv latexmkrc .latexmkrc
+$ bin/create.bash -l 回数
 ```
 
 ## 全資料のビルド方法
