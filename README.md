@@ -27,6 +27,7 @@ src/
   * `TEX_COMPILER`: TeXコンパイラを指定する(デフォルト`uplatex`)
   * `DVI_COMPILER`: DVIファイルのコンパイラを指定する(デフォルト`dvipdfmx`)
   * `MAIN_TEX_FILE`: コンパイルする起点となるTeXファイルのパス(デフォルト`main.tex`)
+  * `MAX_REPEAT`: `latexmkrc`を利用しない場合に使用される。この回数分だけコンパイルする(デフォルトは3回)
 1. `main.tex`: コンパイルする際の起点となるTeXファイル
 
 ## 資料の用意方法

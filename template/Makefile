@@ -1,6 +1,7 @@
 TEX_COMPILER = uplatex
 DVI_COMPILER = dvipdfmx
 MAIN_TEX_FILE = main.tex
+MAX_REPEAT = 3
 
 .PHONY: all compile clean
 
@@ -10,8 +11,10 @@ compile:
 	if [ -e .latexmkrc ]; then \
 		latexmk $(MAIN_TEX_FILE); \
 	else \
-		$(TEX_COMPILER) $(MAIN_TEX_FILE); \
-		$(DVI_COMPILER) $(basename $(MAIN_TEX_FILE)).dvi; \
+		for i in $$(seq 1 $(MAX_REPEAT)); do \
+			$(TEX_COMPILER) $(MAIN_TEX_FILE); \
+			$(DVI_COMPILER) $(basename $(MAIN_TEX_FILE)).dvi; \
+		done; \
 	fi
 
 clean:
