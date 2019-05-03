@@ -3,17 +3,15 @@ DOC_DIR = doc
 N = 1
 TEMPLATE_DIR = template
 
-.PHONY: all clean new
+.PHONY: all clean
 
 all: $(DOC_DIR)
-	$(MAKE) -C $(SRC_DIR)
+	bash $(SRC_DIR)/make.bash build
 
 clean:
-	rm -rf doc/
+	rm -rf $(DOC_DIR)
+	bash $(SRC_DIR)/make.bash clean
 
 $(DOC_DIR):
 	mkdir -p $@
-
-new: $(DOC_DIR)
-	cp -r $(TEMPLATE_DIR) $(SRC_DIR)/$N
 
