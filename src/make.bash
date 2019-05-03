@@ -25,7 +25,7 @@ function build() {
   if [ $# -eq 0 ]; then
     # 引数が指定されなければ全てビルド
     for target in $(echo $ROOT/[0-9]*); do
-      bash -c "cd $target && make" &
+      bash -c "cd $target && make"
     done
   else
     # 引数は整数でなければならない
@@ -37,13 +37,18 @@ function build() {
 
     bash -c "cd $ROOT/$1 && make"
   fi
+
+  # できたPDFはdocディレクトリへ移動
+  for i in $(find $ROOT -iname '*.pdf'); do
+    cp $i $ROOT/../doc/$(basename $(dirname $i)).pdf
+  done
 }
 
 function clean() {
   if [ $# -eq 0 ]; then
     # 引数が指定されなければ全てクリーンに
     for i in $ROOT/[0-9]*; do
-      bash -c "cd $i && echo -e '\033[32;1m-> $i\033[0m' && make clean" &
+      bash -c "cd $i && echo -e '\033[32;1m-> $i\033[0m' && make clean"
     done
   else
     # 引数は整数でなければならない
@@ -53,7 +58,7 @@ function clean() {
     fi
 
     # 引数が指定されたものだけクリーンに
-    bash -c "cd $ROOT/$1 && echo -e '\033[32;1m-> $ROOT/$1\033[0m' && make clean" & 
+    bash -c "cd $ROOT/$1 && echo -e '\033[32;1m-> $ROOT/$1\033[0m' && make clean"
   fi
 }
 

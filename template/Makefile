@@ -11,5 +11,5 @@ compile:
 	$(DVI_COMPILER) $(basename $(MAIN_TEX_FILE)).dvi
 
 clean:
-	rm -f *.{dvi,pdf,aux,log}
+	rm -f *.{dvi,pdf,aux,log,pdf}
 
