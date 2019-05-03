@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 COMMAND_NAME=${0##*/}
-ROOT=$(dirname $0)
+SRC_ROOT=$(cd $(dirname $0)/../src && pwd)
 
 function version() {
   echo -e "\033[1m${COMMAND_NAME}\033[0m v0.1"
@@ -24,7 +24,7 @@ function usage() {
 function build() {
   if [ $# -eq 0 ]; then
     # 引数が指定されなければ全てビルド
-    for target in $(echo $ROOT/[0-9]*); do
+    for target in $(echo $SRC_ROOT/[0-9]*); do
       bash -c "cd $target && make"
     done
   else
@@ -35,19 +35,19 @@ function build() {
     fi
     # 引数が指定されれば、指定された数だけビルド
 
-    bash -c "cd $ROOT/$1 && make"
+    bash -c "cd $SRC_ROOT/$1 && make"
   fi
 
   # できたPDFはdocディレクトリへ移動
-  for i in $(find $ROOT -iname '*.pdf'); do
-    cp $i $ROOT/../doc/$(basename $(dirname $i)).pdf
+  for i in $(find $SRC_ROOT -iname '*.pdf'); do
+    cp $i $SRC_ROOT/../doc/$(basename $(dirname $i)).pdf
   done
 }
 
 function clean() {
   if [ $# -eq 0 ]; then
     # 引数が指定されなければ全てクリーンに
-    for i in $ROOT/[0-9]*; do
+    for i in $SRC_ROOT/[0-9]*; do
       bash -c "cd $i && echo -e '\033[32;1m-> $i\033[0m' && make clean"
     done
   else
@@ -58,7 +58,7 @@ function clean() {
     fi
 
     # 引数が指定されたものだけクリーンに
-    bash -c "cd $ROOT/$1 && echo -e '\033[32;1m-> $ROOT/$1\033[0m' && make clean"
+    bash -c "cd $SRC_ROOT/$1 && echo -e '\033[32;1m-> $SRC_ROOT/$1\033[0m' && make clean"
   fi
 }
 

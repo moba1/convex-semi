@@ -1,4 +1,4 @@
-SRC_DIR = src
+MAKE_SCRIPT=bin/make.bash
 DOC_DIR = doc
 N = 1
 TEMPLATE_DIR = template
@@ -6,11 +6,11 @@ TEMPLATE_DIR = template
 .PHONY: all clean
 
 all: $(DOC_DIR)
-	bash $(SRC_DIR)/make.bash build
+	bash $(MAKE_SCRIPT) build
 
 clean:
 	rm -rf $(DOC_DIR)
-	bash $(SRC_DIR)/make.bash clean
+	bash $(MAKE_SCRIPT) clean
 
 $(DOC_DIR):
 	mkdir -p $@

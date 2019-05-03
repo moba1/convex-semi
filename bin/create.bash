@@ -10,20 +10,24 @@ function usage() {
   echo -e "\033[32;1m${COMMAND_NAME}\033[0m: テンプレートから各資料用のディレクトリを作成"
   echo -e "\033[33;1m使い方:\033[0m"
   echo -e "  \033[1m${COMMAND_NAME}\033[0m n"
-  echo -e "  \033[1m${COMMAND_NAME}\033[0m [-h | -v]"
+  echo -e "  \033[1m${COMMAND_NAME}\033[0m [-h | -v | -l]"
   echo -e "\033[34;1mオプション\033[0m"
   echo -e "  \033[1m-h\033[0m  ヘルプを表示"
   echo -e "  \033[1m-v\033[0m  バージョンを表示"
+  echo -e "  \033[1m-l\033[0m  latexmkrcをコピーする"
   echo -e "\033[34;1m引数:\033[0m"
   echo -e "  \033[1mn\033[0m  第n回のn(n: 整数)"
 }
 
 function main() {
+  local use_latexmk=0
+
   # オプション解析
-  while getopts hv OPT; do
+  while getopts hvl OPT; do
     case $OPT in
       h) usage; exit;;
       v) version; exit;;
+      l) use_latexmk=1;;
       \?) usage; exit 1;;
     esac
   done
@@ -41,7 +45,12 @@ function main() {
     usage; exit 1
   fi
 
-  cp -r template src/$1
+  local root=$(dirname $0)/../
+  local template=$root/template src=$root/src/$1
+  cp -r $template/base $src
+  if [ $use_latexmk -eq 1 ]; then
+    cp $template/latexmkrc $src/.latexmkrc
+  fi
 }
 
 main $@
