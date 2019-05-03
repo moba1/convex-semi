@@ -36,9 +36,9 @@ $ cd クローン先
 $ ./create.bash 回数 # 回数には自分の担当した輪読第n回の`n`を指定。たとえば`1`とか
 ```
 これで、`template`ディレクトリから`src/n`へ必要なファイルが移動される。
-もし、`latexmkr`を利用するのであれば、次のコマンドを実行
+もし、`latexmkr`を利用するのであれば、次のコマンドを実行:
 ```bash
-$ cd src/n
+$ cd src/n # create.bashで作られた`src/n`へ移動
 $ mv latexmkrc .latexmkrc
 ```
 
