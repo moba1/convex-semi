@@ -1,0 +1,32 @@
+language: generic
+
+services:
+  - docker
+
+env:
+  global:
+    - DOCKER_IMAGE=moba/build-semi-docs:latest
+    - secure: sTC8q4QY1GW7jQLAGxxcQr5yWuO9CW6pUNjDuM/f7j2mZ8U9WAAHzqBABn7ja/DbEr+cBoSjBAdyxzKLqP3MuDBCJyfH8athITAlmPypesU/0oUqSGQ/w06Xu+f7UAq5UqVkUExlsccgBuQZui6jmebfeGD5A18NxUcSMe9Ld6tXJ6JtYxbq7rInEcgqVdQjxpEu3/qXbB0nFBSgqS5nki9jigJvtapQaVSPYmN3nr7MfKU2HTxefajIUUGBk1LeRgC2cGMAhdZ6fb6XBcFDAoqAvzQVVtoAbtATzWMk6pYMZ2akcPY+Go0g3197N6mDjylxdjJ5qHCYnmTBKactJWzoPAseDdjAD/Fhyiu/lyr4nQWG9etob1oiOT/qU91BPL86SQnjyLFTwZspI7g94ptdwoRH5F53Zy37NuDwr5s01m/dTCnM36naCqhXq3wmBExLKxEkIdmSkDDQu0YAE6WFtmoyzGWH/fsVNzc3PA782wUKgIVqqNgypIyt9BAuFy5hxX75W5QK+eF2TaxObbgcJTaiHApLXvM1mEFzXMQQT4lPvSdBf2TgaronG8kJzxL6g12DGROQJvn3uMmaGZGFiQX5pbtLglG7ykdqHkXSc3xPAw9aIZSMa0YXw9w5px1tgocl4M7RP6lSlFTDdc3Pfq7w/Qip++d+1IpbQ6c=
+
+git:
+  depth: false
+
+sudo: false
+
+before_deploy:
+  - docker pull $DOCKER_IMAGE
+  - git checkout -b gh-pages origin/gh-pages
+  - cp index.html ~
+  - git reset --hard origin/$TRAVIS_BRANCH
+  - docker run --rm -it -v $PWD:/build $DOCKER_IMAGE bash -c "cd /build && make clean && make"
+  - cp ~/index.html .
+  - git add index.html
+  - git commit -m "add index.html"
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: "$GITHUB_TOKEN"
+  target-branch: gh-pages
+  on:
+    branch: master
