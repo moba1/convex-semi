@@ -17,10 +17,17 @@ src/
 
 ## PRの出し方
 1. このリポジトリをクローン
-2. 資料を書く
-3. `git checkout -b '適当なブランチ名'`
-4. `git add`する
-5. `git push origin HEAD`
+1. 資料を書く
+1. `git checkout -b '適当なブランチ名'`
+1. `git add`する
+1. `git push origin HEAD`
+
+## `template`の中身
+1. `Makefile`
+  * `TEX_COMPILER`: TeXコンパイラを指定する(デフォルト`uplatex`)
+  * `DVI_COMPILER`: DVIファイルのコンパイラを指定する(デフォルト`dvipdfmx`)
+  * `MAIN_TEX_FILE`: コンパイルする起点となるTeXファイルのパス(デフォルト`main.tex`)
+1. `main.tex`: コンパイルする際の起点となるTeXファイル
 
 ## 資料の用意方法
 ```bash
