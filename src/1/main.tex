@@ -161,5 +161,18 @@ $-f_0(x)$として$x$を選択する効果や有効性と考えることもで�
     &                  &\quad -a_i^Tx - t &\leq b_i, i = 1,\cdots,k \label{eq;chebyshev-solve}
 \end{alignat}
 
+\section{凸最適化}
+凸最適化問題は
+\begin{alignat}{2}
+    &\text{minimize}    &\quad f_0(x) \notag \\
+    &\text{subject to}  &\quad f_i(x) &\leq b_i, i = 1,\cdots,m \label{eq:convex-form}
+\end{alignat}
+ここで、関数$f_0,\cdots,f_m : \mathbb{R}^n \rightarrow \mathbb{R}$は凸面であり、つまり
+\begin{align}
+    f_i(\alpha x+\beta y) \leq \alpha f_i(x) + \beta f_i(y)
+\end{align}
+を満たす。
+また、$\forall x, y \in \mathbb{R}$, $\forall \alpha, \beta \in \mathbb{R}$ with $\alpha + \beta = 1, \alpha \geq 0, \beta \geq 0$である。
+
 \end{document}
 
