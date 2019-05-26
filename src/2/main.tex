@@ -1,0 +1,117 @@
+% upLaTeX用にuplatexオプションが指定してあるが、
+% pLaTexの場合ははずす
+\documentclass[a4paper, 10pt, notitlepage, uplatex]{jsreport}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{ascmac}
+\usepackage{url}
+% 2.1.3まで
+\title{Chapter 2 凸集合(convex sets)}
+\author{mznh}
+\date{}
+
+\newtheorem{example}{例}
+\newtheorem{theorem}{定理}
+\newtheorem{lemma}{補題}
+\newtheorem{define}{定義}
+
+\begin{document}
+\maketitle
+%\setcounter{section}{2}
+\setcounter{chapter}{1}
+\chapter{凸集合(convex sets)}
+用語は初出の場合は日本語訳(英語名)で記す。また章や節の題名の場合は常に英語名を添える。
+\section{アフィン集合(affine set)と凸集合(convex set)}
+\subsection{直線(line)と線分(line segment)}
+$\mathbb{R}^2$上の相異なる点$x_1,x_2 (x_1\neq x_2$)で表現される点$y$を考える。
+\begin{align*}
+y = \theta x_1 + (1 - \theta)x_2, (\theta \in \mathbb{R})
+\end{align*}
+これは点$x_1,x_2$を通る直線を表している。パラメータ$\theta = 0$のとき$y = x_2$、$\theta = 1$のとき$y = x_1$となる。$\theta$が$[0,1]$の中を動くとき、それを$x_1,x_2$間の線分と呼ぶ。$y$を、
+\begin{align*}
+y = x_2 + \theta(x_1 - x_2)
+\end{align*}
+と表してみる。これは$y$は基点(base point)$x_2$とパラメータ$\theta$で調整された(scaled)方向ベクトル(direction)$x_1-x2)$を足したものであると解釈できる。$\theta$を0から1へ動かすと、それに伴い$y$は$x_2$から$x_1$へ移動し、$\theta > 1$となると$y$は$x_1$を超える。
+\subsection{アフィン集合(affine set)}
+$C$がアフィン集合であるとは、$C$上の任意の相異なる点を通る直線が全て$C$に含まれていることを指す。つまり、
+\begin{align*}
+\forall x_1,x_2 \in C, \forall \theta \in \mathbb{R}, \theta x_1+(1-\theta) x_2 \in C
+\end{align*}
+を満たす。これは「集合$C$は任意の2点の係数の和が1となる線形結合を全て 自身に含む」とも表せる。
+この考え方を一般化しよう。$k$個の点に対して以下で表す点を考える。
+\begin{align*}
+  \theta_1 x_1 + \theta_2 x_2 + \cdots + \theta_k x_k, \ \ \left(\sum_{i=1}^k \theta_i = 1\right)
+\end{align*}
+これを$x_1,x_2,\cdots,x_k$のアフィン結合(affine combination)と呼ぶ。アフィン結合を用いることで、アフィン集合は次のように定義できる。
+\begin{define}
+アフィン集合は、それ自身の点からなるアフィン結合を全て含む集合である。
+\begin{align*}
+  C\mbox{がアフィン集合} 
+    \iff \forall k \in \mathbb{N},
+    \forall x_1,x_2,\cdots,x_k \in C,
+    \forall \theta_1,\theta_2,\cdots,\theta_k, 
+      \sum_{i=1}^k \theta_i = 1 \implies \sum_{i=0}^k \theta_i x_i \in C
+\end{align*}
+\end{define}
+次にアフィン集合$C$と、その要素$x_0 \in C $によって定義される集合$V$を考える。
+\begin{align*}
+ V = C-x_0 = \{x - x_0 | x \in C\}
+\end{align*}
+$V$は部分空間になっている。（つまり和と定数倍で閉じている）
+\begin{proof}
+$v_1,v_2 \in V, \alpha,\beta \in \mathbb{R}$とする。$\alpha v_1 + \beta v_2 \in V$を示したい。 $V$の定義より、
+\begin{align}
+  v_1+x_0 \in C,\ v_2+x_0 \in C \label{pr11}
+\end{align}
+\begin{align*}
+\alpha v_1 + \beta v_2 + x_0 &= \alpha v_1 + \beta v_2 + x_0 +(\alpha+\beta)x_0 -(\alpha+\beta)x_0\\
+&= \alpha(v_1+x_0) + \beta (v_2+x_0) + (1-\alpha-\beta)x_0     
+\end{align*}
+ここで式\eqref{pr11}と$x_0 \in C$, 係数の和が1であること($\alpha + \beta + (1-\alpha-\beta) = 1$)から \\ 
+$\alpha v_1 + \beta v_2 + x_0$は$v_1,v_2,x_0$のアフィン結合であり、$C$に含まれる。よって$V$の定義より、
+$\alpha v_1 + \beta v_2 $は$V$に含まれる。よって$V$は部分空間である。
+\end{proof}
+また、この結果からアフィン集合$C$は部分空間$V$とオフセット$x_0$によって表せる。
+\begin{align*}
+C = V + x_0 = \{v + x_0 | v \in V \}
+\end{align*}
+この部分空間$V$は$x_0$に依存してない。よって$x_0$は$C$から任意に選ぶ事ができる。ここでアフィン集合$C$の次元を以下で定義する。
+\begin{define}
+アフィン集合$C$の次元:= $C$から任意に選んだオフセット$x_0$を引いた部分空間$V$の次元
+\end{define}
+気持ちを切り替えて新たに$C \subseteq \mathbb{R}^n$をとり、$C$の点で構成される全てのアフィン結合の集合を考える。
+これを集合$C$のアフィン包(affine hull)と呼び$\rm{aff}C$と記す。
+\begin{define}
+$ \rm{aff} C = \{\theta_1 x_1+\theta_2 + x_2 +\cdots+ \theta_k x_k | x_1,x_2,\cdots,x_k \in C, \sum_{i=1}^k x_i = 1\} $
+\end{define}
+$C$のアフィン包は$C$を含む最小のアフィン集合になる。
+\begin{proof}
+どうせ背理法でしょ
+\end{proof}
+
+\begin{align*}
+\end{align*}
+
+\subsection{アフィン次元(affine dimension)と相対的内点(relative interior)}
+集合$C$のアフィン次元を、$C$のアフィン包の次元と定義する。
+アフィン次元は凸解析や凸最適化の文脈において、使い勝手が良いのでよく用いられる。
+例えば$\mathbb{R}^2$上の単位円$\{x \in \mathbb{R}^2| x_1^2+x_2^2 = 1\}$を考える。
+これのアフィン包は$\mathbb{R}^2$全体になり、アフィン次元は2になる。
+しかし、ほとんどの次元の定義においては$\mathbb{R}^2$上の単位円の次元は1と定義されることが多い。
+\begin{example}
+\end{example}
+集合$C \subseteq \mathbb{R}^n$のアフィン次元が$n$より小さいとき、${\rm aff} C \neq \mathbb{R}^n$となる。
+ここで集合$C$の相対的内点${\rm relint}C$を定義しよう。
+\begin{define}
+$ {\rm relint} C = \{x \in C | B(x,r) \cap {\rm aff}C \subseteq C, \exists r \geq 0 \} $
+\end{define}
+ここで$B(x,r) = \{y | ||y-x|| \leq r \}$は$x$を中心とした半径$r$のボールを表している。また、$||\cdot||$は任意のノルムを用いても相対的内点は定義できる。また、集合$C$の相対的境界(relative boundary)を以下で定義する。
+\begin{define}
+ $C\in \mathbb{R}^n \mbox{の相対的境界} := {\rm cl}C \setminus {relint} C$
+\end{define}
+ここで${\rm cl}C$は$C$の閉包(closure)であり、$\mathbb{R}^n\setminus {\rm int}(\mathbb{R}^n\setminus C)$で定義される。
+
+
+アフィン (affine) はラテン語で「類似・関連」を意味する affinis に由来するらしいよ。
+\end{document}
+
