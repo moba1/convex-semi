@@ -22,6 +22,7 @@ before_deploy:
   - cp ~/index.html .
   - git add index.html
   - git commit -m "add index.html"
+  - git clean -fdx src
 
 deploy:
   provider: pages
