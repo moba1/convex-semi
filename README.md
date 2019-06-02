@@ -22,7 +22,7 @@ src/
 ビルドした成果物は`gh-pages`ブランチにプッシュされ、[ここ](https://moba1.github.com/convex-semi)に設置するようにしている。
 
 ## PRの出し方
-1. このリポジトリをクローン
+1. このリポジトリをクローン(すでにクローンしてあればpull)
 1. 資料を書く
 1. `git checkout -b '適当なブランチ名'`
 1. `git add` & `git commit`
