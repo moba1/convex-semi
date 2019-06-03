@@ -47,6 +47,7 @@ function main() {
 
   local root=$(dirname $0)/../
   local template=$root/template src=$root/src/$1
+  mkdir -p $src
   cp -r $template/base $src
   if [ $use_latexmk -eq 1 ]; then
     cp $template/latexmkrc $src/.latexmkrc
