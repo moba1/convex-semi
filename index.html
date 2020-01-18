@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Convex Optimization</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Convex Optimizationの資料置き場">
+    <meta name="author" content="moba1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--[if lt IE 9]>
+      <script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js" />
+      <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" />
+    <![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script>
+      (async () => {
+        const response = await fetch('https://api.github.com/repos/moba1/convex-semi/contents/doc?ref=gh-pages');
+        const data = await response.json();
+
+        let list = '<li class="collection-header grey lighten-3"><h4><span class="text">資料</span><span class="text">リンク先</span></h4></li>';
+        for (let pdf of data) {
+          list += `
+            <a href="${pdf.path}" class="collection-item grey lighten-3">
+              <div><i class="tiny material-icons secondary-content">file_download</i>第${pdf.name.replace(/\.[^/.]+$/, "")}回</div>
+            </a>`;
+        }
+        document.getElementById('pdfs').innerHTML = `
+          <ul class="collection with-header col m8 offset-m2 xl8 offset-xl2 s10 offset-s1 grey lighten-3">
+            ${list}
+          </ul>`;
+      })();
+
+      function changeTitleSize(newTagName) {
+        let tag = document.getElementById('title');
+        let new_tag = document.createElement(newTagName);
+
+        for (let attr of tag.attributes) {
+          new_tag.setAttribute(attr.name, attr.value);
+        }
+        new_tag.innerHTML = tag.innerHTML;
+
+        tag.parentNode.replaceChild(new_tag, tag);
+      }
+      function resizeTitle() {
+        changeTitleSize(
+          window.innerWidth >= 480 ? 'h1' : 'h3'
+        );
+      }
+      window.onload = resizeTitle;
+      window.onresize = resizeTitle;
+    </script>
+    <style type="text/css">
+      .text { display: inline-block; } 
+
+      @import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
+
+      body {
+        font-family: 'Noto Sans Japanese', sans-serif;
+      }
+      p {
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body class="green lighten-5">
+    <header>
+      <div class="top-nav teal darken-1">
+        <div class="container">
+          <div class="nav-wrapper">
+            <div class="row">
+              <div class="col s12 xl8 offset-xl2">
+                <h1 id="title" class="header text white-text">
+                  <span class="text">Convex</span> <span class="text">Optimization</span>
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="container">
+        <div class="row">
+          <div class="col s12 xl8 offset-xl2">
+            <div class="card grey lighten-3">
+              <div class="card-content">
+                <p>
+                  <a href="https://web.stanford.edu/~boyd/cvxbook/">Convex Optimization</a>の輪読資料を公開しています(リンク先はPDFです)。
+                  この資料自体は<a href="https://github.com/moba1/convex-semi">moba1/convex-semi</a>というレポジトリにpushされた各回の資料をTravis CIでビルドして、gh-pagesブランチにpushして置いてます。
+                </p>
+                <div class="row">
+                </div>
+                <div class="row">
+                  <div id="pdfs"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

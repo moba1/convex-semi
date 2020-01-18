@@ -1,0 +1,366 @@
+% upLaTeX用にuplatexオプションが指定してあるが、
+% pLaTexの場合ははずす
+\documentclass[pdflatex, ja=standard, a4paper]{bxjsarticle}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{ascmac}
+\usepackage{graphicx}
+
+\newtheorem{definition}{定義}
+\newtheorem{corollary}{系}
+
+\renewcommand{\thesection}{2.1.\arabic{section}}
+\setcounter{section}{3}
+
+\DeclareGraphicsRule{.ai}{pdf}{.ai}{}
+
+\newcommand{\figref}[1]{図~\ref{#1}}
+
+\newcommand{\parenthesis}[1]{\left(#1\right)}
+\newcommand{\conv}{\mathop{\mathrm{conv}}}
+\newcommand{\cone}{\mathop{\mathrm{cone}}}
+
+\begin{document}
+\section{凸集合}
+集合$C$が\textbf{凸}(convex)であるとは$C$の2点を結ぶ線分が$C$につつまれている集合のことをいう。
+言い換えれば、これは$C$内の任意の点から見て、他の$C$内の点に真っ直ぐいたるまでに、$C$でない部分によって遮られないことを意味する。
+フォーマルには次のように定義される。
+\begin{definition}
+    集合$C$が凸であるとは、任意の$x_1, x_2 \in C$と、任意の$\theta \in [0, 1]$に対し、
+    \begin{align} \label{eq:line-sgment}
+        \theta x_1 + (1 - \theta) x_2 \in C
+    \end{align}
+    となることを言う。
+\end{definition}
+\noindent
+注意して欲しいが、空集合は凸集合となる。
+
+\eqref{eq:line-sgment}の左辺を変形すると、
+\begin{align*}
+    \theta x_1 + (1 - \theta) x_2
+        &= \theta x_1 + x_2 - \theta x_2 \\
+        &= x_2 + \theta (x_1 - x_2)
+\end{align*}
+となる。
+幾何的には\figref{fig:line-segment}のように、$x_1 - x_2$が実線矢印となり、それの$\theta$倍の位置が$\theta (x_1 - x_2)$となっている。
+$\theta$は$0$から$1$までなので、$\theta (x_1 - x_2)$で任意の線分の間の点を表すことができる。
+\begin{figure}[b]
+    \centering
+    \includegraphics{image/line-segment.ai}
+    \caption{線分は$x_2 + \theta (x_1 - x_2)$で表せる。}
+    \label{fig:line-segment}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{tabular}{c}
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/convex-1.ai}
+            \caption{この集合は凸集合となる。凸集合は$x$と$y$を結ぶ線分が入っているように、任意の2点間の線分をつつむ。}
+        \end{minipage}
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/nonconvex-1.ai}
+            \caption{この集合は凸集合とはならない。$x$と$y$を結ぶ線分は集合の外に飛び出してしまっている。}
+        \end{minipage}
+
+        \\
+
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/covnex-2.ai}
+            \caption{この集合は凸集合となっている。原点から他の円内の点と線分を結ぶことができる。もちろん、原点以外の円内の点も線分を任意の点と結ぶことができる。}
+        \end{minipage}
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/nonconvex-2.ai}
+            \caption{この集合は凸集合とはならない。集合に含まれている縁の点を結ぶ線分は、含まれていない部分を通ってしまう。}
+        \end{minipage}
+    \end{tabular}
+\end{figure}
+
+線分は、それよりも長い直線に含まれているので、アフィン集合内の任意の異なる2点の間の線分はアフィン集合自体に含まれる。
+すなわち、アフィン集合は凸集合となることには注意して欲しい。
+
+さて、アフィン結合$\theta_1 x_1 + \cdots + \theta_k x_k$の中でも、$\theta_i \geq 0 (i = 1, \cdots, k)$となるものを、点$x_1, \cdots, x_k$の\textbf{凸結合}(convex combination)という。
+式に着目すると、これは各$x_1, \cdots, x_k$の重要度を加味した平均、すなわち重み付き平均であるといえる。
+この凸結合と、凸集合との間には次のような関係が成立する。
+\begin{corollary}
+    集合が凸であることと、集合がその集合内の任意の点同士の凸結合を含むことは同値。
+\end{corollary}
+\begin{proof}
+    まず、集合$C$が凸であるとして、$C$がその$C$内の任意の点同士の凸結合を含むことを示す。
+    $C$は凸なので、任意の2点$x$と$y$、それに$\theta \in [0, 1]$に対し、$\theta x + (1 - \theta) y \in C$となる。
+    さらに、$\theta x + (1 - \theta) y \in C$と、任意の点$z$と$\Theta \in [0, 1]$に対して、
+    \begin{align*}
+        &\Theta (\theta x + (1 - \theta) y) + (1 - \Theta) z \in C \\
+            \iff& \Theta \theta x + \Theta (1 - \theta) y + (1 - \Theta) z \in C
+    \end{align*}
+    となる。
+    すると、
+    \begin{align*}
+        \Theta \theta + \Theta (1 - \theta) + (1 - \Theta)
+            &= \Theta \theta + \Theta - \Theta \theta + 1 - \Theta \\
+            &= 1
+    \end{align*}
+    であり、$\theta, \Theta \in [0, 1]$ から、$\Theta \theta, (1 - \Theta) \in [0, 1]$となる。
+    また、$1 - \theta \in [0, 1]$なので、$\Theta (1 - \theta) \in [0, 1]$である。
+    よって、これを繰り返せば、任意の整数$k \geq 2$に対して成立する。
+    上の証明は点$x_1, \cdots, x_k \in C$の選び方にも任意性があるので、$C$は任意の$C$内の点同士の凸結合を含む。
+
+    次に、集合$C$が、任意の$C$内の点同士の凸結合を含むならば凸集合となることを示す。
+    しかし、任意の$\theta \in [0, 1]$と$x_1, x_2 \in C$に対し、$\theta x_1 + (1 - \theta) x_2$を考えると、これは凸結合となっているので、$\theta x_1 + (1 - \theta) x_2 \in C$。
+\end{proof}
+
+この凸結合を用いて、集合$C$の\textbf{凸包}(convex hull)$\conv C$を定義する。
+\begin{definition}
+    集合$C$の凸包とは、$C$の点同士の凸結合を全て集めたもののことをいう。
+    すなわち、
+    \begin{align*}
+        \conv C = \{\theta_1 x_1 + \cdots + \theta_k x_k : x_i \in C, \theta_i \geq 0 \enspace (i = 1, \cdots, k), \theta_1 + \cdots + \theta_k = 1\}
+    \end{align*}
+\end{definition}
+\noindent
+先程の証明から、$\conv C$は凸集合となる。
+この凸包には次のような性質がある。
+\begin{corollary}
+    集合$C$の凸包$\conv C$は、$C$を包む凸集合の中でも最小の凸集合となる。
+    すなわち、
+    \begin{align*}
+        \forall D; D\text{が} C \text{を包む凸集合} \implies C \subseteq \conv C \subseteq D
+    \end{align*}
+\end{corollary}
+\begin{proof}
+    まず、$\conv C$が$C$を包むことを言わなければならないが、これは$\theta_1$を$1$として、それ以外の$\theta_2, \cdots, \theta_k$を全て$0$とすれば、
+    \begin{align*}
+        \theta_1 x_1 + \cdots + \theta_k x_k = x_1 \in C
+    \end{align*}
+    となることからすぐにわかる。
+
+    次に、任意の$C$を包む凸集合$D$が、$C$の凸包$\conv C$を包んでいることを示す。
+    先程、集合が凸集合であることと、集合が、その集合内の点同士の凸結合を全て含むことは同値であることを証明したので、$D$も全ての$D$内の点同士の凸結合全てを含む。
+    $\conv C$は$C$内の点同士の凸結合全てを含んでいるが、これは当然$D$に含まれる。
+    なぜならば、$D$は$C$を包んでいるので、任意の$x_1, \cdots, x_k \in C$は$D$にも含まれ、その凸結合も含まれるからである。
+    よって、$\conv C \subseteq D$となる。
+\end{proof}
+
+\begin{figure}
+    \centering
+    \begin{tabular}{c}
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/convex-hull-1.ai}
+            \caption{$C = \{x_1, \cdots, x_{10}\}$の凸包は五角形領域の部分となる。}
+        \end{minipage}
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/convex-hull-2.ai}
+            \caption{横線部分の凸包は四角領域の部分となる。}
+        \end{minipage}
+    \end{tabular}
+\end{figure}
+
+今の定義では、凸結合できる点の個数は有限個に制限されている。
+これを一般化することを考える。
+つまり、$C$が凸であって、$x_1, x_2, \cdots \in C$とし、
+\begin{align*}
+    \theta_i \geq 0 \enspace (i = 1, 2, \cdots), \sum_{i = 1}^\infty \theta_i = 1
+\end{align*}
+を$\theta_1, \theta_2, \cdots$が満たすとき、
+\begin{align*}
+    \sum_{i = 1}^\infty \theta_i x_i \in C
+\end{align*}
+の収束先を凸結合とする。
+さらにもう一歩すすんで、$C$が凸であって、$p: \mathbb{R}^n \to \mathbb{R}$が全ての$x \in C$に対して、$p(x) \geq 0$であって、
+\begin{align*}
+    \int_C p(x) dx = 1
+\end{align*}
+を満たすとき、
+\begin{align*}
+    \int_C p(x) x \, dx \in C
+\end{align*}
+が積分可能であれば、その積分値を凸結合とする。
+
+一般化した凸結合の形を見ると、$p$を確率として見れば、その値は期待値$E[x]$となっている。
+期待値と同じように、$p$を$x = x_1$のときだけ$\theta$、$x = x_2$のときだけ$1 - \theta$を返すとすれば、
+\begin{align*}
+    \int_C p(x) x \, dx = \theta x_1 + (1 - \theta) x_2
+\end{align*}
+となるから、これは初めに定義した凸結合の一般化となっていることが確認できる。
+
+\section{錐}
+$C$が\textbf{錐}(cone)、あるいは\textbf{同次非負}(nonnegative homogenous)であるとは、$\theta \geq 0$倍したものも$C$に含まれていることをいう。
+すなわち、次のように定義された集合を錐という。
+\begin{definition}
+    集合$C$が錐であるとは、
+    \begin{align*}
+        \forall x \in C, \theta \geq 0; \theta x \in C
+    \end{align*}
+    を満たすことをいう。
+\end{definition}
+\noindent
+凸集合と同じように、空集合は錐となる。
+\begin{figure}
+    \centering
+    \begin{tabular}{c}
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/cone-1.ai}
+            \caption{$C = \{0\}$は錐となる。実際、$0$は$\theta (\geq 0)$倍しても$0$となるからである。}
+        \end{minipage}
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/cone-2.ai}
+            \caption{直線も、どの点を$\theta (\geq 0)$倍しても直線に含まれるので、錐となる。}
+        \end{minipage}
+
+        \\
+
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/cone-3.ai}
+            \caption{2本の直線に囲まれた、横線が引かれた部分は錐となっている。}
+        \end{minipage}
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/cone-4.ai}
+            \caption{2本の点線に囲まれた、横線が引かれた部分は錐となっている。なお、点線部分は含まないことに注意。}
+        \end{minipage}
+
+        \\
+
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/cone-5.ai}
+            \caption{このようなものも錐となる。}
+        \end{minipage}
+        \begin{minipage}{0.5\hsize}
+            \centering
+            \includegraphics{image/noncone.ai}
+            \caption{錐は原点を含まなければならないので、横線部分は錐とはならない。}
+        \end{minipage}
+    \end{tabular}
+\end{figure}
+
+錐の中でも、凸であるようなものは\textbf{凸錐}(convex cone)と呼ばれる。
+この凸錐は、次のような性質を持つ。
+\begin{corollary}
+    集合$C$が凸錐であることの必要十分条件は、
+    \begin{align*}
+        \forall x_1, x_2 \in C, \forall \theta_1, \theta_2 \geq 0; \theta_1 x_1 + \theta_2 x_2 \in C
+    \end{align*}
+    となること。
+\end{corollary}
+\begin{proof}
+    まず、集合$C$が凸錐であると仮定し、
+    \begin{align*}
+        \forall x_1, x_2 \in C, \forall \theta_1, \theta_2 \geq 0; \theta_1 x_1 + \theta_2 x_2 \in C
+    \end{align*}
+    を満たすことを示す。
+    $C$が錐であることから、任意の$x, y \in C$と$\lambda, \mu \geq 0$に対し、$\lambda x, \mu y \in C$となる。
+    さらに、$C$は凸でもあるので、任意の$\theta \in [0, 1]$に対し、
+    \begin{align*}
+        \theta \lambda x + ( 1- \theta) \mu y \in C
+    \end{align*}
+    となる。
+    $\theta \in [0, 1], \lambda \geq 0, \mu \geq 0$より、$\theta \lambda \geq 0, (1 - \theta) \mu \geq 0$。
+    よって、$\theta_1 := \theta \lambda \geq 0, \theta_2 := (1 - \theta) \mu \geq 0$とすれば、
+    \begin{align*}
+        \theta_1 x + \theta_2 y \in C
+    \end{align*}
+    となる。
+
+    次に、集合$C$が
+    \begin{align*}
+        \forall x_1, x_2 \in C, \forall \theta_1, \theta_2 \geq 0; \theta_1 x_1 + \theta_2 x_2 \in C
+    \end{align*}
+    を満たすとき、$C$が凸錐であることを示す。
+    まず、凸であることを示すが、これは任意の$\theta \in [0, 1]$に対し、$(1 - \theta) \geq 0$であるので、任意の$x, y \in C$に対し、
+    \begin{align*}
+        \theta x + (1 - \theta) y \in C
+    \end{align*}
+    となるので明らか。
+    次に、錐となることを示すが、これも任意の$x, y \in C$と$\theta, \Theta \geq 0$に対し、
+    \begin{align*}
+        \theta x + \Theta y \in C
+    \end{align*}
+    であるので、$\Theta = 0$とすれば、$\theta x \in C$となり、$\theta = 0$とすれば、$\Theta y \in C$となるので、明らか。
+\end{proof}
+\noindent
+この$\theta_1 x_1 + \theta_2 x_2 \in C$は幾何的には\figref{fig:conve-cone}のような意味になる。
+つまり、原点からの2点$x_1, x_2$を通るような半直線の間にある点が全て集合に含まれることを要求しているのである。
+\begin{figure}
+    \centering
+    \includegraphics{image/convex-cone.ai}
+    \caption{凸錐とは$x_1, x_2 \in C$のそれぞれと、原点を結ぶ半直線の間にある点全てが含まれるような集合のことをいう。}
+    \label{fig:conve-cone}
+\end{figure}
+
+アフィン結合や凸結合と同じように、\textbf{錐結合}(convex combination)あるいは\textbf{非負線形結合}(nonnegative linear combination)というものを考える。
+\begin{definition}
+    $x_1, \cdots, x_k$と$\theta_1, \cdots, \theta_k \geq 0$に対し、$\theta_1 x_1 + \cdots + \theta_k x_k$を錐結合という。
+\end{definition}
+\noindent
+この錐結合と凸錐との間には次のような関係が成立する。
+\begin{corollary}
+    集合$C$が凸錐であることの必要十分条件は、$C$の任意の点同士の錐結合を$C$が含んでいることである。
+\end{corollary}
+\begin{proof}
+    まず、集合$C$が凸錐であるとして、任意の集合$C$内の点同士の凸結合を、$C$が含んでいることを示す。
+    先程の証明から、$C$が凸錐であるならば、任意の$x_1, x_2 \in C$と$\theta_1, \theta_2 \geq 0$に対し、$\theta_1 x_1 + \theta_2 x_2 \in C$なので、さらに$x_3 \in C$と$\theta_3 \in C$に対して、
+    \begin{align*}
+        (\theta_1 x_1 + \theta_2 x_2) + \theta_3 x_3 = \theta_1 x_1 + \theta_2 x_2 + \theta_3 x_3 \in C
+    \end{align*}
+    となる。
+    以下同様に繰り返すことで、任意の錐結合は$C$に含まれることが示される。
+
+    次に、任意の錐結合を含む集合$C$が凸錐となることを示す。
+    しかし、これは任意の$\theta_1, \theta_2 \geq 0$と$x_1, x_2 \in C$に対し、$\theta_1 x_1 + \theta_2 x_2$が錐結合となることから$\theta_1 x_1 + \theta_2 x_2 \in C$となることより、先程示した系から明らかである。
+\end{proof}
+\noindent
+錐結合は凸結合と同じように一般化することができる。
+
+この錐結合を使って、集合$C$の\textbf{錐包}(conic hull)を考える。
+\begin{definition}
+    集合$C$の錐包とは、次のような集合のことを言う。
+    \begin{align*}
+        \{\theta_1 x_1 + \cdots + \theta_k x_k : x_i \in C, \theta_i \geq 0 \enspace (i = 1, \cdots, k)\}
+    \end{align*}
+\end{definition}
+\noindent
+この錐包は、$C$を包む凸錐の中でも、最も小さくなる。
+\begin{corollary}
+    集合$C$の錐包は、集合$C$を包む凸錐の中でも、最も小さいものとなる。
+    すなわち、任意の$C$を包む凸錐を$D$としたとき、
+    \begin{align*}
+        \cone C := \{\theta_1 x_1 + \cdots + \theta_k x_k : x_i \in C, \theta_i \geq 0 \enspace (i = 1, \cdots, k)\} \subseteq D
+    \end{align*}
+\end{corollary}
+\begin{proof}
+    $\cone C$が$C$を包まなければならないが、これは、$\theta_1 = 1$とし、それ以外の$\theta_2, \cdots, \theta_k$を全て$0$とすれば、$x_1 \in C$に対し、$\theta_1 x_1 = x_1$となるので、明らかに$C$を包んでいる。
+    そこで、ここでは$\cone C$が$C$を包む凸錐の中で最も小さいものであることを示す。
+    しかし、先程の証明から、凸錐であることの必要十分条件は任意の集合内の点同士の凸結合を含んでいることであることを使えば、簡単に証明できる。
+    すなわち、$\cone C$は$C$による錐結合全てによって構成されいるので、$C$を包む任意の凸錐はその必要十分条件から、$\cone C$を含まねばならない。
+    よって$\cone C \subseteq D$。
+\end{proof}
+
+\begin{figure}
+    \centering
+    \begin{tabular}{c}
+        \begin{minipage}{1\hsize}
+            \centering
+            \includegraphics{image/cone-hull-1.ai}
+            \caption{$C = \{x_1, \cdots, x_{10}\}$の錐包は$0$と$x_3$を結ぶ半直線と$0$と$x_5$を結ぶ半直線の間の領域となる。}
+        \end{minipage}
+
+        \\
+
+        \begin{minipage}{1\hsize}
+            \centering
+            \includegraphics{image/cone-hull-2.ai}
+            \caption{横線が引かれた領域の錐包は原点から伸びている半直線の間の領域となる。}
+        \end{minipage}
+    \end{tabular}
+\end{figure}
+\end{document}
